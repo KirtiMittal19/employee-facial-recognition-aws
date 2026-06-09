@@ -50,7 +50,7 @@ react-webcam
 
 🏗️ Architecture 
 
-
+![Architecture](archietecture(FRP)drawio(1).png)
 
  
 
