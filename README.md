@@ -1,74 +1,198 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+Employee Facial Recognition System using AWS Rekognition  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A cloud-based facial recognition system . The system uses AWS Rekognition to automatically verify and authenticate employees in real time — faster, more secure, and more accurate. 
 
-## Available Scripts
+ 
 
-In the project directory, you can run:
+🚀 Features 
 
-### `npm start`
+Real-time face recognition using AWS Rekognition 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Webcam-based  marking — no manual input needed 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Instant authentication with success/failure feedback 
 
-### `npm test`
+Serverless architecture — no server management required 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Secure employee registration via S3 
 
-### `npm run build`
+Full audit trail stored in DynamoDB 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🛠️ Tech Stack 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+AWS Services 
 
-### `npm run eject`
+Amazon Rekognition -Face indexing and recognition  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+AWS Lambda -Serverless business logic   
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Amazon S3 -Employee and visitor image storage  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Amazon DynamoDB- Employee data storage  
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Amazon API Gateway -REST API endpoints  
 
-## Learn More
+AWS IAM -Roles and permissions 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Amazon CloudWatch -Logging and monitoring  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ 
 
-### Code Splitting
+Frontend 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+React JS 
 
-### Analyzing the Bundle Size
+react-webcam 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+ 
 
-### Making a Progressive Web App
+🏗️ Architecture 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+ 
 
-### Deployment
+EMPLOYEE REGISTRATION (Admin) 
+────────────────────────────── 
+Admin uploads employee photo to S3 
+       ↓ 
+S3 triggers Registration Lambda 
+       ↓ 
+Lambda indexes face in Rekognition Collection 
+       ↓ 
+Lambda saves FaceID + Employee Name in DynamoDB 
+ 
+ 
+Recognising Employee
+────────────────────────────── 
+Employee opens React frontend 
+       ↓ 
+Webcam captures face photo 
+       ↓ 
+React sends image to API Gateway 
+       ↓ 
+API Gateway triggers Auth Lambda 
+       ↓ 
+Lambda searches face in Rekognition Collection 
+       ↓ 
+Rekognition returns matched FaceID 
+       ↓ 
+Lambda fetches employee name from DynamoDB 
+       ↓ 
+Frontend displays: "Welcome [Name]!" ✅ 
+or "Person not recognised" ❌ 
+ 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+ 
 
-### `npm run build` fails to minify
+⚙️ How It Works 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# smart-attendance-system
->>>>>>> 846d26455acdf6b02b9b1a543807c2be3ea02ef9
+Employee Registration 
+
+Admin uploads employee photo to the S3 bucket (named as FirstName_LastName.jpeg) 
+
+S3 event notification automatically triggers the Registration Lambda 
+
+Lambda sends the image to Rekognition which indexes the face and returns a unique FaceID 
+
+Lambda stores the FaceID along with the employee's name in DynamoDB 
+
+Recognising Employee 
+
+Employee visits the React frontend and clicks Capture Photo 
+
+The webcam takes a snapshot which is sent to API Gateway 
+
+Auth Lambda receives the image and calls Rekognition's SearchFacesByImage API 
+
+If a match is found, Lambda fetches the employee details from DynamoDB 
+
+A success message with the employee's name is displayed on the frontend 
+
+ 
+
+🚦 Getting Started 
+
+Prerequisites 
+
+AWS Account 
+
+Node.js installed 
+
+Frontend Setup 
+
+# Clone the repository 
+git clone https://github.com/KirtiMittal19/smart-attendance-system.git 
+ 
+# Navigate to project folder 
+cd facial-recognition-app 
+ 
+# Install dependencies 
+npm install 
+ 
+# Add your API Gateway URL in App.js 
+const API_URL = 'YOUR_API_GATEWAY_URL'; 
+ 
+# Start the app 
+npm start 
+ 
+
+AWS Setup 
+
+Create a S3 bucket— for employee photos 
+
+Create a DynamoDB table named employee with rekognition-id as the primary key 
+
+Use cloud shell to configure Rekognition Collection named employee 
+
+Deploy both Lambda functions (registration and authentication) with correct IAM roles 
+
+Configured S3 Event Notification by adding S3 as a trigger on Registration Lambda 
+
+Set up API Gateway with /attendance (PUT) and /register (POST) endpoints 
+
+Add S3 event notification to trigger Registration Lambda on image upload 
+
+🔒 Security 
+
+IAM roles follow the Principle of Least Privilege 
+
+Each Lambda function only has permissions it needs 
+
+API Gateway URL should be stored as environment variable in production 
+
+CORS enabled on API Gateway for frontend access 
+
+ 
+
+## 🚀 Future Enhancements  
+
+ 
+
+1. Visitor Photo Storage - Save every attendance photo to S3 visitor bucket for audit trail and record keeping  
+
+ 
+
+2. Admin Dashboard- Web interface to view daily/monthly visit reports and employee records 
+
+ 
+
+3. Anti-Spoofing - Prevent authentication using printed photos or phone screens by implementing liveness detection 
+
+ 
+
+4. CloudFront Deployment - Deploy React frontend globally using AWS S3 + CloudFront for faster loading and HTTPS 
+
+ 
+
+👩‍💻 Author 
+
+Kirti Mittal 
+
+GitHub: @KirtiMittal19 
+
+ 
+
+ 
