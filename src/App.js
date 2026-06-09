@@ -48,7 +48,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Smart Attendance System</h2>
+      <h2>Facial Recognition System</h2>
 
       {!isCaptured ? (
         <div>
